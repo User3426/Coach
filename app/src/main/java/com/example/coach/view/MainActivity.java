@@ -1,0 +1,87 @@
+package com.example.coach.view;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.example.coach.R;
+import com.example.coach.contract.ICalculView;
+import com.example.coach.presenter.CalculPresenter;
+
+public class MainActivity extends AppCompatActivity implements ICalculView {
+
+    private EditText txtPoids, txtTaille, txtAge;
+    private RadioButton rdHomme, rdFemme;
+    private TextView lblIMG;
+    private ImageView imgSmiley;
+    private Button btnCalc;
+    private CalculPresenter presenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        init();
+    }
+
+    @Override
+    public void afficherResultat(String image, double img, String message, boolean normal) {
+        int imageId = getResources().getIdentifier(image, "drawable", getPackageName());
+        imgSmiley.setImageResource(R.drawable.normal);
+        imgSmiley.setImageResource(imageId);
+        String texte = String.format("%.01f", img) + " : IMG " + message;
+        lblIMG.setText(texte);
+        lblIMG.setTextColor(normal ? Color.GREEN : Color.RED);
+
+    }
+
+    private void chargeObjetsGraphiques(){
+        txtPoids = (EditText) findViewById(R.id.txtPoids);
+        txtTaille = findViewById(R.id.txtTaille);
+        txtAge = findViewById(R.id.txtAge);
+        rdHomme = findViewById(R.id.rdHomme);
+        lblIMG = findViewById(R.id.lblIMG);
+        imgSmiley = findViewById(R.id.imgSmiley);
+        btnCalc = findViewById(R.id.btnCalc);
+    }
+
+    private void init(){
+        chargeObjetsGraphiques();
+        presenter = new CalculPresenter(this);
+        btnCalc.setOnClickListener(v -> btnCalc_clic());
+    }
+
+    private void btnCalc_clic(){
+        Integer poids = 0, taille = 0, age = 0, sexe = 0;
+        try {
+            poids = Integer.parseInt(txtPoids.getText().toString());
+            taille = Integer.parseInt(txtTaille.getText().toString());
+            age = Integer.parseInt(txtAge.getText().toString());
+        } catch (Exception ignored) {}
+        if (rdHomme.isChecked()) {
+            sexe = 1;
+        }
+        if (poids == 0 || taille == 0 || age == 0) {
+            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+        }else {
+            presenter.creerProfil(poids, taille, age, sexe);
+        }
+    }
+}
