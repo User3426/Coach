@@ -1,12 +1,22 @@
 package com.example.coach.model;
 
+
+/**
+ * Classe métier contenant les informations d'un profil
+ */
 public class Profil {
 
     private static final int MIN_FEMME = 25;
     private static final int MAX_FEMME = 30;
     private static final int MIN_HOMME = 15;
     private static final int MAX_HOMME = 20;
+    /**
+     * messages à afficher suivant la valeur de l'img
+     */
     private static final String[] MESSAGE = {"trop faible", "normal", "trop élevé"};
+    /**
+     * nom du fichier drawable correspondant à la valeur de l'img
+     */
     private static final String[] IMAGE = {"maigre", "normal", "graisse"};
     private Integer poids;
     private Integer taille;
@@ -15,6 +25,13 @@ public class Profil {
     private double img = 0;
     private int indice = 0;
 
+    /**
+     * Constructeur : valorise les propriétés
+     * @param poids
+     * @param taille
+     * @param age
+     * @param sexe
+     */
     public Profil(Integer poids, Integer taille, Integer age, Integer sexe) {
         this.poids = poids;
         this.taille = taille;
@@ -24,11 +41,20 @@ public class Profil {
         this.indice = calculIndice();
     }
 
+    /**
+     * Calcul de l'img
+     * @return résultat du calcul de l'img
+     */
     private double calculImg() {
         double tailleM = taille / 100.0;
         return (1.2 * poids / (tailleM * tailleM)) + (0.23 * age) - (10.83 * sexe) - 5.4;
     }
 
+    /**
+     * Calcule l'indice correspondant à l'img
+     * pour se positionner dans la bonne case des tableaux message et image
+     * @return valeur de l'indice
+     */
     private int calculIndice() {
         int min = (sexe == 0) ? MIN_FEMME : MIN_HOMME;
         int max = (sexe == 0) ? MAX_FEMME : MAX_HOMME;
@@ -42,18 +68,38 @@ public class Profil {
         }
     }
 
+    /**
+     *
+     * @return valeur de l'img
+     */
     public double getImg() {
         return img;
     }
 
+    /**
+     * vrai si l'img est normal
+     * @return
+     */
+    /**
+     * message à afficher qui correspond à l'img
+     * @return
+     */
     public String getMessage() {
         return MESSAGE[indice];
     }
 
+    /**
+     *
+     * @return nom du fichier drawable qui correspond à l'img
+     */
     public String getImage() {
         return IMAGE[indice];
     }
 
+    /**
+     *
+     * @return vrai si l'img est normal
+     */
     public boolean normal() {
         return indice == 1;
     }
