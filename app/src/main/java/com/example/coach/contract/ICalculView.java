@@ -13,4 +13,6 @@ public interface ICalculView {
      * @param normal vrai si l'img est normal
      */
     void afficherResultat(String image, double img, String message, boolean normal);
+
+    void remplirChamps(Integer poids, Integer taille, Integer age, Integer sexe);
 }

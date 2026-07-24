@@ -1,6 +1,8 @@
 package com.example.coach.model;
 
 
+import java.util.Date;
+
 /**
  * Classe métier contenant les informations d'un profil
  */
@@ -24,6 +26,27 @@ public class Profil {
     private Integer sexe;
     private double img = 0;
     private int indice = 0;
+    private Date dateMesure;
+
+    public Integer getPoids(){
+        return poids;
+    }
+
+    public Integer getTaille(){
+        return taille;
+    }
+
+    public Integer getAge(){
+        return age;
+    }
+
+    public Integer getSexe(){
+        return sexe;
+    }
+
+    public Date getDateMesure(){
+        return dateMesure;
+    }
 
     /**
      * Constructeur : valorise les propriétés
@@ -32,13 +55,14 @@ public class Profil {
      * @param age
      * @param sexe
      */
-    public Profil(Integer poids, Integer taille, Integer age, Integer sexe) {
+    public Profil(Integer poids, Integer taille, Integer age, Integer sexe, Date dateMesure) {
         this.poids = poids;
         this.taille = taille;
         this.age = age;
         this.sexe = sexe;
         this.img = calculImg();
         this.indice = calculIndice();
+        this.dateMesure = dateMesure;
     }
 
     /**
