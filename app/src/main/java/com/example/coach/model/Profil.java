@@ -24,8 +24,8 @@ public class Profil {
     private Integer taille;
     private Integer age;
     private Integer sexe;
-    private double img = 0;
-    private int indice = 0;
+    private transient double img = 0;
+    private transient int indice = 0;
     private Date dateMesure;
 
     public Integer getPoids(){
